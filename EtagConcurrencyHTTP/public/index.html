@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente Web - ETag</title>
+</head>
+<body>
+    <h2>Cliente Web - Control de Concurrencia</h2>
+    <button onclick="load()">GET</button>
+    <button onclick="update()">PUT</button>
+
+    <p>ETag actual: <span id="etag">-</span></p>
+
+    <input id="name" placeholder="Nombre"/>
+    <input id="description" placeholder="Descripción"/>
+
+    <pre id="log"></pre>
+    
+    <script>
+        let currentETag = null;
+
+        const load = async () => {
+            const res = await fetch("/projects/12345");
+            const data = await res.json();
+            currentETag = res.headers.get("ETag");
+            document.getElementById("etag").textContent = currentETag;
+            document.getElementById("name").value = data.name;
+            document.getElementById("description").value = data.description;
+        };
+
+        const update = async () => {
+            const res = await fetch("/projects/12345", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "If-Match": currentETag
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("name").value,
+                    description: document.getElementById("description").value
+                })
+            });
+            const data = await res.json();
+            document.getElementById("log").textContent = JSON.stringify(data, null, 2);
+        };
+    </script>
+</body>
+</html>
