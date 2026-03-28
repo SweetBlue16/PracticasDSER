@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package calc;
+
+message OperacionRequest {
+    double n1 = 1;
+    double n2 = 2;
+}
+
+message OperacionResponse {
+    double result = 1;
+}
+
+service CalculadoraService {
+    rpc suma(OperacionRequest) returns (OperacionResponse);
+    rpc resta(OperacionRequest) returns (OperacionResponse);
+    rpc mult(OperacionRequest) returns (OperacionResponse);
+    rpc div(OperacionRequest) returns (OperacionResponse);
+}
