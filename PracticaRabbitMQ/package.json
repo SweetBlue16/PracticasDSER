@@ -1,0 +1,13 @@
+{
+  "name": "rabbitmq-activity",
+  "version": "1.0.0",
+  "description": "Actividad RabbitMQ - Desarrollo de Sistemas en Red",
+  "scripts": {
+    "producer": "node producer.js",
+    "billing": "node billing-service.js",
+    "notification": "node notification-service.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.3"
+  }
+}
